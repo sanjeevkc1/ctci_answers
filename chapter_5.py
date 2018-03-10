@@ -46,7 +46,6 @@ class ctci_p2(object):
 # by replacing at most one zero
 # input    1775 (11011101111)
 # Output   8    (110[11111111])
-
 class ctci_p3(object):
 
     def longest_ones_sequence(self,n):
@@ -81,7 +80,6 @@ class ctci_p3(object):
 # print the immediate smallest and largest
 # number of the given number that has same
 # number of  1s
-
 class ctci_p4(object):
 
     # brute force solution
@@ -109,23 +107,23 @@ class ctci_p4(object):
             temp += 1
         return temp
 
-    #optimized solution
+    #optimized solutions
     def get_next_smallest_optimized(self):
         # get first zero that
         # has 1 to its left side
         import math
         temp = self.n
-        num_of_bits = int(math.log(temp,2)) + 2
-
-        if ((1 << num_of_bits) - temp == 1):
-            print "Init:  ", bin(self.n)
+        num_of_bits = int(math.log(temp,2)) + 1
+        if (((1 << num_of_bits) - temp != 1) and (temp != 0)): #if the number doesn't have all ones
+            # observe the first pair of 0 and 1 where 1 appears before 0
+            # For example in 1000010 --> interchange first 0 with 1 and 1 with 0
+            print "Init:  ", bin(self.n) , self.n
             l_s_b = 0 if (temp % 2) == 0 else 1
-            s_b  = 0 if (temp % 2) == 0 else 1
+            s_b  = 0 if ((temp >> 1) % 2) == 0 else 1
             one_index = -1
             zero_index = -1
             index = 1
             temp >>= 2
-
             while (not (s_b and not l_s_b) and temp > 0):
                 if(l_s_b):
                     one_index += 1
@@ -136,11 +134,14 @@ class ctci_p4(object):
                 s_b = 0 if (temp % 2 == 0) else 1
                 temp >>= 1
                 index += 1
-
             temp = self.n
             temp = ctci_p1.update_bit(temp,index - 1)
             temp = ctci_p1.reset_bit(temp,index)
-
+            # once the above step is finished,
+            # update zeros with ones and ones and zeros that are to the right side
+            # index variable.
+            # eg:     110011
+            # output: 101110
             if (one_index > -1 and zero_index > -1):
                 zero_index += one_index + 1
                 while (one_index >= 0):
@@ -148,11 +149,4 @@ class ctci_p4(object):
                     temp = ctci_p1.reset_bit(temp,one_index)
                     one_index -= 1
                     zero_index -= 1
-            print "result:", bin(temp)
-        else:
-            import math
-            a = temp
-            b = temp << 1
-            b = ctci_p1.update_bit(b,0)
-            b = ctci_p1.reset_bit(b,int(math.log(b,2)) - 1)
-            print [a,b]
+        return temp
