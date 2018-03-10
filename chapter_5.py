@@ -1,6 +1,5 @@
                                                     # CTCI Bit Manipulations
 
-# ____________________
 # insert 'm' into 'n' starting from j ending in i
 # j - i = # of bits in m
 class ctci_p1(object):
@@ -18,6 +17,7 @@ class ctci_p1(object):
         mask = (1 << i)
         return (n | mask)
 
+    @staticmethod
     def replace_num(self,m,n,i,j):
         while(i <= j):
             last_bit = 0 if(m % 2 == 0) else 1
@@ -29,7 +29,6 @@ class ctci_p1(object):
             i += 1
         return n
 
-# ____________________
 # convert a floating number
 # to binary. return the binary
 # as string
@@ -43,7 +42,6 @@ class ctci_p2(object):
             result += str(int(temp))
         return result
 
-# ____________________
 # Return longest sub sequence of ones
 # by replacing at most one zero
 # input    1775 (11011101111)
@@ -80,7 +78,6 @@ class ctci_p3(object):
                 temp >>= 1
             return main_len
 
-# ____________________
 # print the immediate smallest and largest
 # number of the given number that has same
 # number of  1s
@@ -159,15 +156,3 @@ class ctci_p4(object):
             b = ctci_p1.update_bit(b,0)
             b = ctci_p1.reset_bit(b,int(math.log(b,2)) - 1)
             print [a,b]
-
-# s = ctci_p4(25)
-# s.get_next_smallest_optimized()
-#
-# s = ctci_p4(49)
-# s.get_next_smallest_optimized()
-#
-# s = ctci_p4(99)
-# s.get_next_smallest_optimized()
-
-s = ctci_p4(5)
-s.get_next_smallest_optimized()
