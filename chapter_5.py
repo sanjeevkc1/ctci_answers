@@ -1,9 +1,8 @@
                                                     # CTCI Bit Manipulations
 
-# insert 'm' into 'n' starting from j ending in i
+# 1. insert 'm' into 'n' starting from j ending in i
 # j - i = # of bits in m
 class ctci_p1(object):
-
     @staticmethod
     #reset i'th bit in n with 0
     def reset_bit(n,i):
@@ -29,11 +28,10 @@ class ctci_p1(object):
             i += 1
         return n
 
-# convert a floating number
+# 2. convert a floating number
 # to binary. return the binary
 # as string
 class ctci_p2(object):
-
     def fraction_to_decimal(self,n):
         result = ''
         temp = n
@@ -42,12 +40,11 @@ class ctci_p2(object):
             result += str(int(temp))
         return result
 
-# Return longest sub sequence of ones
+# 3. Return longest sub sequence of ones
 # by replacing at most one zero
 # input    1775 (11011101111)
 # Output   8    (110[11111111])
 class ctci_p3(object):
-
     def longest_ones_sequence(self,n):
         first_zero = False
         init_one = False
@@ -77,11 +74,10 @@ class ctci_p3(object):
                 temp >>= 1
             return main_len
 
-# print the immediate smallest and largest
+# 4. print the immediate smallest and largest
 # number of the given number that has same
 # number of  1s
 class ctci_p4(object):
-
     # brute force solution
     def __init__(self,n):
         self.n = n
