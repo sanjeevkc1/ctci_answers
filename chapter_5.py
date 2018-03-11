@@ -198,3 +198,12 @@ class ctci_p4(object):
                 temp = ctci_p1.reset_bit(temp,num_of_bits - 1)
         return temp
 
+    # 5. what is (n & (n -1)) == 0 true and false?
+    # sol: If n is a power of two or 0, the above expression is
+    #      true else false.
+
+# 6. Determine how many bits needs to be flipped to convert
+#  integer A to B
+class ctci_p6(object):
+    pass
+
