@@ -89,60 +89,112 @@ class ctci_p4(object):
             n >>= 1
         return count
 
+    # brute-force
     def get_next_smallest(self):
-        ones = self.countSetBits(self.n)
-        temp = self.n - 1
-        while(ones != self.countSetBits(temp)):
-            temp -= 1
+        temp = self.n
+        if(temp > 0):
+            ones = self.countSetBits(self.n)
+            temp = self.n - 1
+            while(ones != self.countSetBits(temp)):
+                temp -= 1
         return temp
 
-    def get_next_biggest(self):
-        ones = self.countSetBits(self.n)
-        temp = self.n + 1
-        while(ones != self.countSetBits(temp)):
-            temp += 1
+    # brute-force
+    def get_next_largest(self):
+        temp = self.n
+        if(temp > 0):
+            ones = self.countSetBits(self.n)
+            temp = self.n + 1
+            while(ones != self.countSetBits(temp)):
+                temp += 1
         return temp
 
     #optimized solutions
-    def get_next_smallest_optimized(self):
+    def get_prev_smallest_opt(self):
         # get first zero that
         # has 1 to its left side
         import math
         temp = self.n
-        num_of_bits = int(math.log(temp,2)) + 1
-        if (((1 << num_of_bits) - temp != 1) and (temp != 0)): #if the number doesn't have all ones
-            # observe the first pair of 0 and 1 where 1 appears before 0
-            # For example in 1000010 --> interchange first 0 with 1 and 1 with 0
-            print "Init:  ", bin(self.n) , self.n
-            l_s_b = 0 if (temp % 2) == 0 else 1
-            s_b  = 0 if ((temp >> 1) % 2) == 0 else 1
-            one_index = -1
-            zero_index = -1
-            index = 1
-            temp >>= 2
-            while (not (s_b and not l_s_b) and temp > 0):
-                if(l_s_b):
-                    one_index += 1
-                else:
-                    zero_index += 1
-
-                l_s_b = s_b
-                s_b = 0 if (temp % 2 == 0) else 1
-                temp >>= 1
-                index += 1
-            temp = self.n
-            temp = ctci_p1.update_bit(temp,index - 1)
-            temp = ctci_p1.reset_bit(temp,index)
-            # once the above step is finished,
-            # update zeros with ones and ones and zeros that are to the right side
-            # index variable.
-            # eg:     110011
-            # output: 101110
-            if (one_index > -1 and zero_index > -1):
-                zero_index += one_index + 1
-                while (one_index >= 0):
-                    temp = ctci_p1.update_bit(temp,zero_index)
-                    temp = ctci_p1.reset_bit(temp,one_index)
-                    one_index -= 1
-                    zero_index -= 1
+        if(temp > 0):
+            num_of_bits = int(math.log(temp,2)) + 1
+            if (((1 << num_of_bits) - temp != 1)): #if the number doesn't have all ones
+                # observe the first pair of 0 and 1 where 1 appears before 0
+                # For example in 1000010 --> interchange first 0 with 1 and 1 with 0
+                l_s_b = 0 if (temp % 2) == 0 else 1
+                s_b  = 0 if ((temp >> 1) % 2) == 0 else 1
+                one_index = -1
+                zero_index = -1
+                index = 1
+                temp >>= 2
+                while (not (s_b and not l_s_b) and temp > 0):
+                    if(l_s_b):
+                        one_index += 1
+                    else:
+                        zero_index += 1
+                    l_s_b = s_b
+                    s_b = 0 if (temp % 2 == 0) else 1
+                    temp >>= 1
+                    index += 1
+                temp = self.n
+                temp = ctci_p1.update_bit(temp,index - 1)
+                temp = ctci_p1.reset_bit(temp,index)
+                # once the above step is finished,
+                # update zeros with ones and ones and zeros that are to the right side of
+                # index variable.
+                # eg:     110011
+                # output: 101110
+                if (one_index > -1 and zero_index > -1):
+                    zero_index += one_index + 1
+                    while (one_index >= 0):
+                        temp = ctci_p1.update_bit(temp,zero_index)
+                        temp = ctci_p1.reset_bit(temp,one_index)
+                        one_index -= 1
+                        zero_index -= 1
         return temp
+
+    def get_next_largest_opt(self):
+        # get first zero that
+        # has 1 to its left side
+        import math
+        temp = self.n
+        if(temp > 0):
+            num_of_bits = int(math.log(temp,2)) + 1
+            if ((1 << num_of_bits) - temp != 1): #if the number doesn't have all ones
+                # observe the first pair of 0 and 1 where 0 appears before 1
+                # For example in 1000010 --> interchange first 1 with 0 and 0 with 1
+                # then 1000010 --> 1000100
+                l_s_b = 0 if (temp % 2) == 0 else 1
+                s_b  = 0 if ((temp >> 1) % 2) == 0 else 1
+                one_index = -1
+                zero_index = -1
+                index = 1
+                temp >>= 2
+                while (not (not s_b and l_s_b) and temp > 0):
+                    if(l_s_b):
+                        one_index += 1
+                    else:
+                        zero_index += 1
+                    l_s_b = s_b
+                    s_b = 0 if (temp % 2 == 0) else 1
+                    temp >>= 1
+                    index += 1
+                temp = self.n
+                temp = ctci_p1.reset_bit(temp,index - 1)
+                temp = ctci_p1.update_bit(temp,index)
+                # once the above step is finished,
+                # update zeros with ones and ones and zeros that are to the right side of
+                # index variable.
+                # eg:     110011
+                # output: 1101110
+                if (one_index > -1 and zero_index > -1):
+                    one_index += zero_index + 1
+                    while (zero_index >= 0):
+                        temp = ctci_p1.update_bit(temp,one_index)
+                        temp = ctci_p1.reset_bit(temp,zero_index)
+                        one_index -= 1
+                        zero_index -= 1
+            else:
+                temp = (temp * 2) + 1
+                temp = ctci_p1.reset_bit(temp,num_of_bits - 1)
+        return temp
+
