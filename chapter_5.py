@@ -198,12 +198,29 @@ class ctci_p4(object):
                 temp = ctci_p1.reset_bit(temp,num_of_bits - 1)
         return temp
 
-    # 5. what is (n & (n -1)) == 0 true and false?
-    # sol: If n is a power of two or 0, the above expression is
-    #      true else false.
+# 5. what is (n & (n -1)) == 0 true and false?
+# sol: If n is a power of two or 0, the above expression is true else false.
 
 # 6. Determine how many bits needs to be flipped to convert
 #  integer A to B
 class ctci_p6(object):
-    pass
-
+    def __init__(self,a,b):
+        self.a = a
+        self.b = b
+        self.count = 0
+    def hamming_distance(self):
+        a = self.a
+        b = self.b
+        while (a > 0 and b > 0):
+            lsb_a = 0 if (a % 2  == 0) else 1
+            lsb_b = 0 if (b % 2 == 0) else 1
+            self.count += lsb_a ^ lsb_b
+            a >>= 1
+            b >>= 1
+        while(a > 0):
+            self.count += 1
+            a >>= 1
+        while(b > 0):
+            self.count += 1
+            b >>= 1
+        return self.count
