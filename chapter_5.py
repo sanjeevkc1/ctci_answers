@@ -224,3 +224,8 @@ class ctci_p6(object):
             self.count += 1
             b >>= 1
         return self.count
+
+# 7. Swap odd and even bits as few instructions as possible.
+# bit0 and bit1 are swapped. bit2 and bit3 are swapped.
+class ctci_p7(object):
+    pass
