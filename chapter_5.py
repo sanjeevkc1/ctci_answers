@@ -246,11 +246,5 @@ class ctci_p7(object):
         #Finally return the logical or of even and odd mask
         return (even_mask | odd_mask)
 
-s = ctci_p7()
-print s.pair_swap(23)
-
-
-
-
 
 
