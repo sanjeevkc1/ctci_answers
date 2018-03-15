@@ -228,4 +228,29 @@ class ctci_p6(object):
 # 7. Swap odd and even bits as few instructions as possible.
 # bit0 and bit1 are swapped. bit2 and bit3 are swapped.
 class ctci_p7(object):
-    pass
+    def pair_swap(self,a):
+        temp = a
+        # The idea is first to use even and odd mask variables
+        # to get even and odd bits respectively.
+        even_mask = 0xAAAAAAAA # In binary it has 32 bits and is equivalent to 101010.......10
+        odd_mask = 0x55555555 # In binary it has 32 bits and is equivalent to  010101.......01
+
+        # using these masks we gather only even and odd bits from temp by doing a logical and with temp
+        even_mask &= temp
+        odd_mask &= temp
+
+        #Now we right shift even_mask and left shift odd_mask by 1
+        even_mask >>= 1
+        odd_mask <<= 1
+
+        #Finally return the logical or of even and odd mask
+        return (even_mask | odd_mask)
+
+s = ctci_p7()
+print s.pair_swap(23)
+
+
+
+
+
+
