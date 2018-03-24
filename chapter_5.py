@@ -245,13 +245,38 @@ class ctci_p7(object):
 
         #Finally return the logical or of even and odd mask
         return (even_mask | odd_mask)
-
-#Draw Line
+      
+# 8.Draw line on a screen
 class ctci_p8(object):
-    def draw_line(self):
-        pass
-    
+    # pixels is number of pixels (int)
+    # width = width of screen
+    # x1, x2, y = Bit number in each pixel on screen starting from most significant bit.
+    # Representation: Each pixel is a byte.
+    # so if width is 3 then we have 3 * 8 = 24 bits in the row.
+    # A pixel can have any value between 0 to 255
+    # x1, x2 are one-indexed
+    # y is zero-indexed
 
+    def draw_line (self, pixels, width, x1, x2, y):
+        height = pixels / width #height of the screen
+        if ((x1 > width * 8) or (x2 > width * 8) or (y > height)):
+            print "Bad input"
+            return None
+        if (x1 > x2):
+            x1,x2 = x2,x1
+
+        pixels = [0] * (pixels) #initiate pixel array
+        mask = 256
+        while (x1 <= x2):
+            # The current pixel is equal to 'width * height' which gives the row number
+            # and add to it the integer division of x1 / 8 which gives column number
+            curr_pixel = (width * y) + (x1 - 1) / 8
+
+            # once we have the pixel coords, logical OR with 256 to update
+            # the bit with 1. Bit count is kept track through 'x1 - (8 * (curr_pixel % width))'
+            pixels [curr_pixel] |= mask >> (x1 - (8 * (curr_pixel % width)))
+            x1 += 1
+        return pixels
 
 
 
